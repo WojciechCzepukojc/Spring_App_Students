@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,24 +31,24 @@ public class Auth extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/persons") //mamy dostęp na ROLE_USER tylko do tych wymienionych URL
-                .hasAnyAuthority("ROLE_USER") // definiujemy role dla powyższych URL
-                .antMatchers("/tasks") //mamy dostęp na ROLE_ADMIN tylko do tych wymienionych URL
-                .hasAnyAuthority("ROLE_ADMIN")// definiujemy role dla powyższych URL
-                .and() // dopisujemy aby kontynuować konfiguracje kolejnych bloków
-                .csrf().disable() // wyączamy csrf do testowania postmanem
+                .antMatchers("/", "/persons")
+                .hasAnyAuthority("ROLE_USER")
+                .antMatchers("/", "/persons")
+                .hasAnyAuthority("ROLE_ADMIN")
+                .and()
+                .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
-                .formLogin()// rozpoczynamy konfiguracje formularza uwierzytelniania
-                .loginPage("/login")//wskazujemy endpointa w którym będzie odbywać się uwierzytelnianie
-                .usernameParameter("username")//nadajemy nazwę jaka będzie jako name w inpucie loginu formularza
-                .passwordParameter("password")//nadajemy nazwę jaka będzie jako name w inpucie hasła formularza
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .loginProcessingUrl("/login")
-                .failureForwardUrl("/login?error") // co się stanie jak będzie błąd logowania
-                .defaultSuccessUrl("/persons") // co sięstanie w momencie prawidłowego wpisania loginu i hasła
+                .failureForwardUrl("/login?error")
+                .defaultSuccessUrl("/persons")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/"); // wskazujemy na który endpoint ma nas przekierować jak się wyloghujmey
+                .logoutSuccessUrl("/");
     }
 }
 

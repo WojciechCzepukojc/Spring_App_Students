@@ -181,9 +181,7 @@
 
    <div class="jumbotron">
 
-                <h1>Projekt zajęciowy</h1>
-                <p>Bootstrap + JSP + Spring Boot + MySQL</p>
-                <p>Dzisiaj jest: </p>
+
             </div>
 
        
